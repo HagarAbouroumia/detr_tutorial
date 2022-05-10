@@ -147,12 +147,13 @@ def make_face_transforms(image_set):
 def build(image_set, args):
     root = Path(args.data_path)
     assert root.exists(), f'provided Face path {root} does not exist'
-    mode = 'instances'
+    mode = '/content/'
     PATHS = {
-        "train": (root / "WIDER_train/images", root / f'train.json'),
-        "val": (root / "WIDER_val/images", root / f'val.json'),
+        "train": (root, mode + 'train.json'),
+        "val": (root, mode + 'val.json'),
     }
+    
 
     img_folder, ann_file = PATHS[image_set]
-    dataset = FaceDetection(img_folder, ann_file, transforms=make_Face_transforms(image_set), return_masks=args.masks)
+    dataset = FaceDetection(img_folder, ann_file, transforms=make_face_transforms(image_set=image_set), return_masks=args.masks)
     return dataset
